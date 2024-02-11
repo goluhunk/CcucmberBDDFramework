@@ -1,0 +1,21 @@
+package org.gaurav.runner;
+
+import org.junit.runner.RunWith;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+		features=".//Features/RequestC79StatementPage.feature",
+		glue="org.gaurav.stepdef",
+		dryRun=false,
+		monochrome=true,
+		plugin= {"pretty","json:Test-Reports/cucumber.json","html:Test-Reports/cucumber.html"}
+		//,tags="@Sanity"
+		)
+
+public class RunAcceptance {
+	
+
+}
