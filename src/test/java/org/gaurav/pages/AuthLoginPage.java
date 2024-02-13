@@ -12,9 +12,8 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AuthLoginPage extends BasePage {
 
-	WebDriver driver;
+	 String url=baseurl+"/auth-login-stub/gg-sign-in";
 	public AuthLoginPage(WebDriver driver) {
-		this.driver=driver;
 		
 		PageFactory.initElements(driver, this);
 	}
@@ -26,7 +25,7 @@ public class AuthLoginPage extends BasePage {
 	List<WebElement> enrollmentsKeys;
 
 	public void login() {
-		driver.get(url);
+		goToPage(url);
 		redirectURL.sendKeys("/customs/payment-records");
 		try {
 			enrollmentsKeys.get(0).sendKeys(ReadJSONData.readData("enrollmentKey"));
@@ -38,5 +37,6 @@ public class AuthLoginPage extends BasePage {
 		}
 		redirectURL.sendKeys(Keys.ENTER);
 	}
+	
 
 }

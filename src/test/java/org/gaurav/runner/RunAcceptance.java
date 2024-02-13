@@ -7,12 +7,12 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features=".//Features/RequestC79StatementPage.feature",
+		features=".//Features",
 		glue="org.gaurav.stepdef",
 		dryRun=false,
 		monochrome=true,
 		plugin= {"pretty","json:Test-Reports/cucumber.json","html:Test-Reports/cucumber.html"}
-		//,tags="@Sanity"
+		,tags="@Custom"
 		)
 
 public class RunAcceptance {
