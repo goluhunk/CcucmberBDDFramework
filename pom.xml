@@ -5,7 +5,29 @@
   <groupId>HMRC-CDS-BDD</groupId>
   <artifactId>HMRC-CDS-BDD</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/Run*.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <packaging>jar</packaging>
 
   <name>HMRC-CDS-BDD</name>
   <url>http://maven.apache.org</url>
@@ -41,12 +63,7 @@
     <scope>test</scope>
 </dependency>
 <!-- https://mvnrepository.com/artifact/org.testng/testng -->
-<dependency>
-    <groupId>org.testng</groupId>
-    <artifactId>testng</artifactId>
-    <version>7.5.1</version>
-    <scope>test</scope>
-</dependency>
+
 
 
 <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->

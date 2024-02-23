@@ -19,7 +19,8 @@ public class Hooks extends BrowserDriver {
 
 	@BeforeAll()
 	public static void setup() {
-		BrowserDriver.getDriver("chrome");
+		//System.getProperty("browser");
+		BrowserDriver.getDriver(System.getProperty("browser"));
 	}
 	
 	
@@ -32,7 +33,7 @@ public class Hooks extends BrowserDriver {
 	public void getScreenShot(Scenario sc) {
 		if(sc.isFailed()) {
 			//sc.getName().replaceAll(" ","_");
-			String file=".\\Screenshots\\test.png";
+			String file="./Screenshots/test.jpg";
 			TakesScreenshot screenshot=(TakesScreenshot)driver;
 			File SrcFile=screenshot.getScreenshotAs(OutputType.FILE);
 			
