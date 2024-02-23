@@ -1,7 +1,8 @@
-C:\Users\singh\OneDrive\Desktop\SeleniumWorkSpace\HMRC-CDS-BDD\src\test\java\org\gaurav\pages\AuthLoginPage.java
-C:\Users\singh\OneDrive\Desktop\SeleniumWorkSpace\HMRC-CDS-BDD\src\test\java\org\gaurav\stepdef\StepDef.java
-C:\Users\singh\OneDrive\Desktop\SeleniumWorkSpace\HMRC-CDS-BDD\src\test\java\org\gaurav\utils\ReadJSONData.java
-C:\Users\singh\OneDrive\Desktop\SeleniumWorkSpace\HMRC-CDS-BDD\src\test\java\org\gaurav\utils\BrowserDriver.java
-C:\Users\singh\OneDrive\Desktop\SeleniumWorkSpace\HMRC-CDS-BDD\src\test\java\org\gaurav\pages\BasePage.java
-C:\Users\singh\OneDrive\Desktop\SeleniumWorkSpace\HMRC-CDS-BDD\src\test\java\org\gaurav\stepdef\Hooks.java
-C:\Users\singh\OneDrive\Desktop\SeleniumWorkSpace\HMRC-CDS-BDD\src\test\java\org\gaurav\runner\RunAcceptance.java
+/Users/gauravsingh/gaurav/CcucmberBDDFramework/src/test/java/org/gaurav/pages/AuthLoginPage.java
+/Users/gauravsingh/gaurav/CcucmberBDDFramework/src/test/java/org/gaurav/pages/CustomsFinancialsHomePage.java
+/Users/gauravsingh/gaurav/CcucmberBDDFramework/src/test/java/org/gaurav/utils/ReadJSONData.java
+/Users/gauravsingh/gaurav/CcucmberBDDFramework/src/test/java/org/gaurav/stepdef/Hooks.java
+/Users/gauravsingh/gaurav/CcucmberBDDFramework/src/test/java/org/gaurav/utils/BrowserDriver.java
+/Users/gauravsingh/gaurav/CcucmberBDDFramework/src/test/java/org/gaurav/runner/RunAcceptance.java
+/Users/gauravsingh/gaurav/CcucmberBDDFramework/src/test/java/org/gaurav/stepdef/StepDef.java
+/Users/gauravsingh/gaurav/CcucmberBDDFramework/src/test/java/org/gaurav/pages/BasePage.java

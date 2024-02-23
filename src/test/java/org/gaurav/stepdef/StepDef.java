@@ -6,12 +6,13 @@ import java.util.Map;
 import org.gaurav.pages.AuthLoginPage;
 import org.gaurav.pages.CustomsFinancialsHomePage;
 import org.gaurav.utils.BrowserDriver;
-import org.testng.Assert;
+
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 
 public class StepDef extends BrowserDriver {
 

@@ -1,7 +1,7 @@
 package org.gaurav.pages;
 
 
-import org.testng.Assert;
+import org.junit.Assert;
 
 public class CustomsFinancialsHomePage extends BasePage {
 
