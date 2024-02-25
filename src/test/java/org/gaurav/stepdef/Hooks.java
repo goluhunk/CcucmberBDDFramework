@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.gaurav.utils.BrowserDriver;
+import org.gaurav.utils.Configuration;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -20,6 +21,7 @@ public class Hooks extends BrowserDriver {
 	@BeforeAll()
 	public static void setup() {
 		//System.getProperty("browser");
+		Configuration.settings(System.getProperty("environment"));
 		BrowserDriver.getDriver(System.getProperty("browser"));
 	}
 	

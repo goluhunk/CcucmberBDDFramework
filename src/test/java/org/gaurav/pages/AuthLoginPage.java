@@ -3,6 +3,7 @@ package org.gaurav.pages;
 import java.io.IOException;
 import java.util.List;
 
+import org.gaurav.utils.Configuration;
 import org.gaurav.utils.ReadJSONData;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AuthLoginPage extends BasePage {
 
-    String url = baseurl + "/auth-login-stub/gg-sign-in";
+    String url = Configuration.getAuthLoginStub() + "/gg-sign-in";
 
     public AuthLoginPage(WebDriver driver) {
 
@@ -27,8 +28,8 @@ public class AuthLoginPage extends BasePage {
 
     public void login() {
         goToPage(url);
-        redirectURL.sendKeys("/customs/payment-records");
-        try {
+        redirectURL.sendKeys(redirectURL()+"/customs/payment-records");
+          try {
             enrollmentsKeys.get(0).sendKeys(ReadJSONData.readData("enrollmentKey"));
             enrollmentsKeys.get(1).sendKeys(ReadJSONData.readData("enrollmentValue"));
             enrollmentsKeys.get(2).sendKeys(ReadJSONData.readData("EORINumber"));
