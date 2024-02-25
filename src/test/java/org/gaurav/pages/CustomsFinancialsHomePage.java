@@ -1,18 +1,21 @@
 package org.gaurav.pages;
 
 
+import org.gaurav.utils.Configuration;
 import org.junit.Assert;
+
+import java.util.Optional;
 
 public class CustomsFinancialsHomePage extends BasePage {
 
-	static String url=baseurl+"/customs/payment-records";
+	static String url= envBaseUrl +"/customs/payment-records";
 
 	public static void loadPage() {
 		goToPage(url);
 
 	}
 
-	public static void assertCashAccountDetails(String accountNo, String status,String balance) {
+	public static void assertCashAccountDetails(String accountNo, String status, String balance) {
 
 		Assert.assertEquals(getElementByText(accountNo).getText().contains(accountNo), true);
 		 if(status==null) {

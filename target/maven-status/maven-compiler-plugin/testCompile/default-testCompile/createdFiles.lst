@@ -1,4 +1,5 @@
 org/gaurav/utils/BrowserDriver.class
+org/gaurav/utils/Configuration.class
 org/gaurav/pages/BasePage.class
 org/gaurav/pages/CustomsFinancialsHomePage.class
 org/gaurav/utils/ReadJSONData.class

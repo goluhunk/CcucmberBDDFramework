@@ -3,14 +3,23 @@ package org.gaurav.pages;
 import java.util.List;
 
 import org.gaurav.utils.BrowserDriver;
+import org.gaurav.utils.Configuration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 
 public class BasePage extends BrowserDriver {
 
+	static String envBaseUrl = Configuration.getBaseURL();
+	static int port = 9876;
+	static String redirect="/customs/payment-records";
 
-	static String baseurl="https://www.development.tax.service.gov.uk";
+	public static  String redirectURL(){
+		if(Configuration.getBaseURL().startsWith("http://local"))
+			return envBaseUrl=envBaseUrl+":"+port;
+		else
+			return envBaseUrl;
+	}
 
 
 	public static void goToPage(String url) {
@@ -34,5 +43,8 @@ public class BasePage extends BrowserDriver {
 		return driver.findElements(By.xpath("//*[contains(@id,'"+id+"')]"));
 		
 	}
+
+
+
 	
 }
