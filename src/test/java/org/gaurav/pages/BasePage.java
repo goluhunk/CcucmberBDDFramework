@@ -44,7 +44,23 @@ public class BasePage extends BrowserDriver {
 		
 	}
 
+	public static WebElement backLink() {
 
+		return driver.findElement(By.cssSelector(".govuk-back-link"));
+	}
 
+	public static WebElement changeLink(String link) {
+
+		WebElement el=null;
+		List<WebElement> list = driver.findElements(By.cssSelector(".govuk-summary-list__row"));
+		for (WebElement e : list) {
+			if (e.findElement(By.cssSelector(".govuk-summary-list__key"))
+					.getText().equalsIgnoreCase(link)) {
+				el=e.findElement(By.tagName("a"));
+				break;
+			}
+		}
+		return el;
+	}
 	
 }

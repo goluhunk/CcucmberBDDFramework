@@ -13,7 +13,7 @@ public class ReadJSONData {
 
 
 	public static String readData(String key) throws IOException {
-		File file=new File("./Test-Data/User.json");
+		File file=new File("./Test-Data/Registered.json");
 		return JsonPath.read(file,key);
 	}
 }
