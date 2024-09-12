@@ -29,10 +29,10 @@ public class StepDef extends BrowserDriver {
     AuthLoginPage alp;
 
 
-    @Given("I am signed in as a registered user")
-    public void signIn() {
+    @Given("I am signed in as a (.*) user$")
+    public void signIn(String userType) {
         alp = new AuthLoginPage(driver);
-        alp.login();
+        alp.login(userType);
     }
 
     @When("I navigate to the (.*) page$")
@@ -46,6 +46,24 @@ public class StepDef extends BrowserDriver {
                 System.out.println("Page Not found");
             }
         }
+    }
+
+    @Then("I should see my duty deferment accounts$")
+    public void dutyDefermentAccount(DataTable data) {
+       List<List<String>> expected=data.asLists().stream().skip(1).collect(Collectors.toList());
+
+        List<List<String>> actual=  CustomsFinancialsHomePage.DutyDefermentAccountCard();
+
+        Assert.assertEquals(actual,expected);
+        String s="Ram";
+        String result=s.equals("Ram") ?"true":"false";
+        System.out.println(result);
+
+    }
+
+    @Then("I should see duty deferment account limits$")
+    public void dutyDefermentAccountLimits(DataTable data) {
+        //System.out.println(data.asLists());
     }
 
     @Then("I should see my Cash account with status$")
@@ -153,6 +171,26 @@ public class StepDef extends BrowserDriver {
         }
         Assert.assertEquals(finalMap,EditContactDetailsPage.getPrepopulatedFormDetails());
     }
+
+    @When("I enter the following details")
+    public void i_enter_the_following_details(DataTable dataTable) {
+        throw new io.cucumber.java.PendingException();
+    }
+    @When("I click on Save changes button")
+    public void i_click_on_save_changes_button() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+    @Then("I should see the following confirmation text")
+    public void i_should_see_the_following_confirmation_text(io.cucumber.datatable.DataTable dataTable) {
+        throw new io.cucumber.java.PendingException();
+    }
+    @Then("I should see a link to {string}")
+    public void i_should_see_a_link_to(String string) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+
 
 
 }

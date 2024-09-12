@@ -1,2 +1,2 @@
 #!/bin/bash
-mvn test -Dbrowser=remote-chrome -Denvironment=local -Dtest=RunAcceptance.java
+mvn test -Dbrowser=chrome -Denvironment=local -Dtest=RunAcceptance.java

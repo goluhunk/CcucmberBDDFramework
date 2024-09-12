@@ -26,13 +26,13 @@ public class AuthLoginPage extends BasePage {
     @FindBy(xpath = "//table[@class='govuk-table']/tbody/tr[2]/td/div/input")
     List<WebElement> enrollmentsKeys;
 
-    public void login() {
+    public void login(String user) {
         goToPage(url);
         redirectURL.sendKeys(redirectURL()+"/customs/payment-records");
           try {
-            enrollmentsKeys.get(0).sendKeys(ReadJSONData.readData("enrollmentKey"));
-            enrollmentsKeys.get(1).sendKeys(ReadJSONData.readData("enrollmentValue"));
-            enrollmentsKeys.get(2).sendKeys(ReadJSONData.readData("EORINumber"));
+            enrollmentsKeys.get(0).sendKeys(ReadJSONData.readData(user,"enrollmentKey"));
+            enrollmentsKeys.get(1).sendKeys(ReadJSONData.readData(user,"enrollmentValue"));
+            enrollmentsKeys.get(2).sendKeys(ReadJSONData.readData(user,"EORINumber"));
         } catch (Exception e) {
             e.printStackTrace();
         }

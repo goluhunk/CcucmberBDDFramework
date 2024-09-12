@@ -2,7 +2,7 @@
 Feature: Duty Deferment Account Details
 
   Background:
-    Given I am signed in as a registered user
+    Given I am signed in as a Super user
 
   Scenario: Navigation between landing page and DD account details page
     When I navigate to the Customs Financials Home page
