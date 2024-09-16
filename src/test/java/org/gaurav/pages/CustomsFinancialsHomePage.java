@@ -1,19 +1,17 @@
 package org.gaurav.pages;
 
 
-import org.gaurav.utils.Configuration;
+
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CustomsFinancialsHomePage extends BasePage {
 
-	static String url= envBaseUrl +"/customs/payment-records";
+	static String url= envBaseUrl+":"+port +"/customs/payment-records";
 
 	public static void loadPage() {
 		goToPage(url);
@@ -28,11 +26,39 @@ public class CustomsFinancialsHomePage extends BasePage {
 			);
 	}
 
+	 public static String accountLimit(String dan){
+		 return driver.findElements(By.cssSelector("#account-limit-" + dan)).isEmpty() ? null : driver.findElement(By.cssSelector("#account-limit-" + dan)).getText().trim().split("\n")[1];
+
+	 }
+
+	public static String guaranteeLimit(String dan){
+		return driver.findElements(By.cssSelector("#guarantee-limit-" + dan)).isEmpty() ? null : driver.findElement(By.cssSelector("#guarantee-limit-" + dan)).getText().trim().split("\n")[1];
+	 }
+
+	public static String guaranteeLimitRemaining(String dan){
+		return driver.findElements(By.cssSelector("#guarantee-limit-remaining-" + dan)).isEmpty() ? null : driver.findElement(By.cssSelector("#guarantee-limit-remaining-" + dan)).getText().trim().split("\n")[1];
+	}
+
+	public static  List<WebElement> DutyDeferment(){
+		return driver.findElement(By.cssSelector("#duty-deferment-accounts"))
+				.findElements(By.cssSelector(".duty-deferment-account"))
+				.stream().collect(Collectors.toList());
+	}
+
+	public static String DutyDefermentAccountList(String account){
+		String text = null;
+		for(WebElement el:DutyDeferment()) {
+			if(el.getText().contains(account)){
+				text=el.findElements(By.cssSelector(".govuk-hint")).isEmpty() ? null :
+						el.findElement(By.cssSelector(".govuk-hint")).getText();
+		}
+
+		}
+		return text;
+	}
 
 	public static List<List<String>> DutyDefermentAccountCard(){
-			return driver.findElement(By.cssSelector("#duty-deferment-accounts"))
-					.findElements(By.cssSelector(".duty-deferment-account"))
-					.stream()
+			return DutyDeferment().stream()
 					.map(el->DutyDefermentAccounts(el)).collect(Collectors.toList());
 
 	}

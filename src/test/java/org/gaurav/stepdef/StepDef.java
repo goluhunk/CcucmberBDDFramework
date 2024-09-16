@@ -1,10 +1,7 @@
 package org.gaurav.stepdef;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import io.cucumber.java.it.Ma;
@@ -19,8 +16,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -29,10 +24,23 @@ public class StepDef extends BrowserDriver {
     AuthLoginPage alp;
 
 
-    @Given("I am signed in as a (.*) user$")
-    public void signIn(String userType) {
+    @Given("I (am |)sign(ed|) in as a (.*) user$")
+    public void signIn(String am,String ed,String userType) throws InterruptedException {
         alp = new AuthLoginPage(driver);
         alp.login(userType);
+    }
+
+    @Given("I am not signed in$")
+    public void notSignIn() {
+        System.out.println("*** BEFORE ***" +driver.manage().getCookies());
+        driver.manage().deleteAllCookies();
+        System.out.println("*** AFTER ***" +driver.manage().getCookies());
+    }
+    @Then("^I see the EORI and Company name '(.*)' on landing page$")
+    public void EORIAndCompanyName(String expectedEoriCompany){
+        String expected=expectedEoriCompany;
+        System.out.println();
+
     }
 
     @When("I navigate to the (.*) page$")
@@ -51,19 +59,48 @@ public class StepDef extends BrowserDriver {
     @Then("I should see my duty deferment accounts$")
     public void dutyDefermentAccount(DataTable data) {
        List<List<String>> expected=data.asLists().stream().skip(1).collect(Collectors.toList());
-
-        List<List<String>> actual=  CustomsFinancialsHomePage.DutyDefermentAccountCard();
-
-        Assert.assertEquals(actual,expected);
-        String s="Ram";
-        String result=s.equals("Ram") ?"true":"false";
-        System.out.println(result);
-
+       List<List<String>> actual=  CustomsFinancialsHomePage.DutyDefermentAccountCard();
+       Assert.assertEquals(actual,expected);
     }
 
     @Then("I should see duty deferment account limits$")
     public void dutyDefermentAccountLimits(DataTable data) {
-        //System.out.println(data.asLists());
+
+
+        List<Map<String, String>> dataMap = data.asMaps();
+
+        dataMap.stream().map(account ->
+
+                {
+
+                    List expectedList = Arrays.asList(account.get("Account Limit"),
+                            account.get("Schemes text"),
+                            account.get("Guarantee Limit"),
+                            account.get("Guarantee Remaining")
+                    );
+                    String accountNumber;
+                    if(account.get("Account Number").contains("Northern Ireland")) {
+                        System.out.println("Inside Northern Ireland");
+                         accountNumber = account.get("Account Number").substring(26);
+                        System.out.println("accountNumber =>"+accountNumber);
+                    }
+                    else{
+                        accountNumber = account.get("Account Number").substring(9);
+                    }
+
+
+
+                    List actualList = Arrays.asList(CustomsFinancialsHomePage.accountLimit(accountNumber),
+                            CustomsFinancialsHomePage.DutyDefermentAccountList(accountNumber),
+                            CustomsFinancialsHomePage.guaranteeLimit(accountNumber),
+                            CustomsFinancialsHomePage.guaranteeLimitRemaining(accountNumber)
+                    );
+
+                    Assert.assertEquals(expectedList,actualList);
+
+                    return null;
+                }
+        ).collect(Collectors.toList());
     }
 
     @Then("I should see my Cash account with status$")
@@ -100,11 +137,8 @@ public class StepDef extends BrowserDriver {
 
 
     @Then("the page title should be \"([^\"]*)\"$")
-    public void pageTitle(String expTitle) {
-        String actualTitle = driver.getTitle();
-        //System.out.println(actualTitle);
-        Assert.assertEquals(actualTitle.equals(expTitle), true);
-
+    public void  pageTitle(String title) {
+        Assert.assertEquals(title,driver.getTitle());
     }
 
     @Then("I should see the (|sub-)heading \"([^\"]*)\"$")

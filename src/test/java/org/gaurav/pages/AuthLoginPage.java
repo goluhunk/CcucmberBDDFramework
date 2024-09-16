@@ -26,7 +26,7 @@ public class AuthLoginPage extends BasePage {
     @FindBy(xpath = "//table[@class='govuk-table']/tbody/tr[2]/td/div/input")
     List<WebElement> enrollmentsKeys;
 
-    public void login(String user) {
+    public void login(String user) throws InterruptedException {
         goToPage(url);
         redirectURL.sendKeys(redirectURL()+"/customs/payment-records");
           try {

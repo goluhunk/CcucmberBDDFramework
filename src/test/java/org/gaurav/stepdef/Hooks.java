@@ -3,6 +3,8 @@ package org.gaurav.stepdef;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.gaurav.utils.BrowserDriver;
@@ -34,8 +36,8 @@ public class Hooks extends BrowserDriver {
 	@After()
 	public void getScreenShot(Scenario sc) {
 		if(sc.isFailed()) {
-			//sc.getName().replaceAll(" ","_");
-			String file="./Screenshots/test.jpg";
+			String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+			String file="./Screenshots/screenshot_"+timestamp+".jpg";
 			TakesScreenshot screenshot=(TakesScreenshot)driver;
 			File SrcFile=screenshot.getScreenshotAs(OutputType.FILE);
 			

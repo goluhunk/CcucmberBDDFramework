@@ -10,7 +10,7 @@ import io.cucumber.junit.CucumberOptions;
 		features=".//Features",
 		glue="org.gaurav.stepdef",
 		dryRun=false,
-		monochrome=true,
+		monochrome=false,
 		plugin= {"pretty","json:Test-Reports/cucumber.json","html:Test-Reports/cucumber.html"
 				,"rerun:target/failed.txt"}
 		,tags="@test"

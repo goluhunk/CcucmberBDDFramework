@@ -12,11 +12,11 @@ public class BasePage extends BrowserDriver {
 
 	static String envBaseUrl = Configuration.getBaseURL();
 	static int port = 9876;
-	static String redirect="/customs/payment-records";
+	//static String redirect="/customs/payment-records";
 
 	public static  String redirectURL(){
 		if(Configuration.getBaseURL().startsWith("http://local"))
-			return envBaseUrl=envBaseUrl+":"+port;
+			return (envBaseUrl+":"+port);
 		else
 			return envBaseUrl;
 	}
