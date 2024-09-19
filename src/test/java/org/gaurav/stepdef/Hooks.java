@@ -22,26 +22,18 @@ public class Hooks extends BrowserDriver {
 
 	@BeforeAll()
 	public static void setup() {
-		//System.getProperty("browser");
 		Configuration.settings(System.getProperty("environment"));
 		BrowserDriver.getDriver(System.getProperty("browser"));
 	}
-	
-	
-	
-	/*
-	 * @Before("@Regression") public void setup2() {
-	 * BrowserDriver.getDriver("firefox"); }
-	 */
+
 	@After()
 	public void getScreenShot(Scenario sc) {
 		if(sc.isFailed()) {
 			String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-			String file="./Screenshots/screenshot_"+timestamp+".jpg";
 			TakesScreenshot screenshot=(TakesScreenshot)driver;
 			File SrcFile=screenshot.getScreenshotAs(OutputType.FILE);
 			
-			File destFile=new File(file);
+			File destFile=new File("./Screenshots/screenshot_"+timestamp+".jpg");
 			try {
 				FileUtils.copyFile(SrcFile, destFile);
 			} catch (IOException e) {
@@ -53,13 +45,5 @@ public class Hooks extends BrowserDriver {
 	public static void tearDown() {
 		driver.quit();
 	}
-
-	/*
-	 * @BeforeStep public void beforeStep() {
-	 * System.out.println("This is before step ..."); }
-	 * 
-	 * @AfterStep public void afterStep() {
-	 * System.out.println("This is after step ..."); }
-	 */
 
 }

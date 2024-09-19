@@ -3,17 +3,12 @@ package org.gaurav.stepdef;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import io.cucumber.java.it.Ma;
-import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
 import org.gaurav.pages.*;
 import org.gaurav.utils.BrowserDriver;
-
-
+import static org.junit.Assert.assertTrue;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.en.*;
+import org.gaurav.utils.DataTableConverters;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -103,6 +98,15 @@ public class StepDef extends BrowserDriver {
         ).collect(Collectors.toList());
     }
 
+    @Then("I should see the following duty deferment balances warning text")
+    public void i_should_see_the_following_duty_deferment_balances_warning_text(DataTable data) {
+        List expected= DataTableConverters.asListOfStrings(data);
+        List actual=Arrays.asList(CustomsFinancialsHomePage.warningText());
+        Assert.assertEquals(expected,actual);
+
+    }
+
+
     @Then("I should see my Cash account with status$")
     public void accountWithStatus(DataTable dataTable) {
         //System.out.println("Data Table  = "+dataTable.asList());
@@ -119,6 +123,23 @@ public class StepDef extends BrowserDriver {
         }
 
     }
+
+    @Then("I should see the following direct debit content")
+    public void i_should_see_the_following_direct_debit_content(DataTable data) {
+        List expected=DataTableConverters.asListOfStrings(data);
+        List actual =CustomsFinancialsHomePage.directDebitContent();
+        Assert.assertEquals(expected,actual);
+
+
+    }
+    @Then("I should see the set up a new Direct Debit link")
+    public void i_should_see_the_set_up_a_new_direct_debit_link() {
+        String actual=CustomsFinancialsHomePage.setUpDirectDebitLink();
+
+        assertTrue(actual.startsWith("http://localhost:9397/customs/duty-deferment/"));
+       assertTrue(actual.endsWith("/direct-debit"));
+    }
+
 
     @When("I click on \'([^\"]*)\'$")
     public void i_click_on(String link) {

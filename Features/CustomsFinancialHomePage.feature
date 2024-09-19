@@ -76,6 +76,7 @@ Feature: Customs Financial Home Page
       | Northern Ireland account: 6139508 |                          |                                    |                             |                                |
       | Northern Ireland account: 6139494 |                          |                                    |                             |                                |
 
+  #@test
   Scenario: Display duty deferment accounts enrolled in schemes
     Given I sign in as a defermentSchemes user
     When I navigate to the Customs Financials Home page
@@ -86,3 +87,34 @@ Feature: Customs Financial Home Page
       | Account: 12345678901 | Account limit: £99,999.99 | Including SIVA, EPSS or AEO status | Guarantee limit: £99,999.99 | Guarantee remaining: £57,149.39 |
 
 
+  Scenario: Display Duty Deferment inaccurate balances message when the feature is enabled
+    When I navigate to the Customs Financials Home page
+    Then I should see the following duty deferment balances warning text
+      | Balances include import declarations made using Customs Handling of Import and Export Freight (CHIEF) and the Customs Declarations Service (CDS). |
+
+  #@test
+  Scenario Outline: Duty Deferment card for regular and Isle of Man users on Customs Financials home page with account status
+    When I sign in as a <user> user
+    And I navigate to the Customs Financials Home page
+    Then I should see the sub-heading "Duty deferment account"
+    And I should see my duty deferment accounts
+      | dan              | Status   | Available Account Balance   | Direct debit info                |
+      | <account number> | <status> | <available account balance> | <direct debit setup information> |
+
+    Examples:
+      | user                                   | status          | account number   | available account balance | direct debit setup information             |
+      | dutyDefermentAccountSuspendedStatus4   | ACTION REQUIRED | Account: 0005992 |                           | Warning\nUnable to use this account on CDS |
+      | dutyDefermentAccountClosed             | CLOSED          | Account: 1234567 | £34,632 available         |                                            |
+      | IsleOfManDutyDefermentAccountSuspended | ACTION REQUIRED | Account: 0005992 | £34,632 available         |                                            |
+      | IsleOfManDutyDefermentAccountClosed    | CLOSED          | Account: 0005992 | £34,632 available         |                                            |
+
+  @test
+  Scenario Outline: Direct debit content on Duty deferment account card with suspended status
+    When I sign in as a <user> user
+    And I navigate to the Customs Financials Home page
+    Then I should see the following direct debit content
+      | You must set up a new Direct Debit to be able to use this deferment account on Customs Declarations Service (CDS).        |
+    And I should see the set up a new Direct Debit link
+    Examples:
+      | user                                 |
+      | dutyDefermentAccountSuspendedStatus4 |

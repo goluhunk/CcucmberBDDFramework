@@ -6,6 +6,7 @@ org/gaurav/stepdef/Hooks.class
 org/gaurav/utils/BrowserDriver.class
 org/gaurav/utils/Configuration.class
 org/gaurav/pages/CustomsFinancialsHomePage.class
+org/gaurav/utils/DataTableConverters.class
 org/gaurav/utils/ReadJSONData.class
 org/gaurav/runner/RunAcceptance.class
 org/gaurav/pages/AuthLoginPage.class
