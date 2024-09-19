@@ -62,5 +62,11 @@ public class BasePage extends BrowserDriver {
 		}
 		return el;
 	}
+
+	public static String warningText(){
+
+		return driver.findElement(By.cssSelector("#duty-deferment-balances-warning")).getText().trim();
+
+	}
 	
 }

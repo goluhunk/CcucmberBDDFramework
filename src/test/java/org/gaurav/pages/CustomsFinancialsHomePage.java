@@ -31,6 +31,23 @@ public class CustomsFinancialsHomePage extends BasePage {
 
 	 }
 
+	 public static List directDebitContent(){
+		List ls = null;
+		for(WebElement e:DutyDeferment()){
+			ls=Arrays.asList(e.findElement(By.tagName("p")).getText());
+		}
+		return ls;
+	 }
+
+	public static String setUpDirectDebitLink(){
+		String ls = null;
+		for(WebElement e:DutyDeferment()){
+			ls =e.findElement(By.tagName("a")).getAttribute("href");
+		}
+		return ls;
+	}
+
+
 	public static String guaranteeLimit(String dan){
 		return driver.findElements(By.cssSelector("#guarantee-limit-" + dan)).isEmpty() ? null : driver.findElement(By.cssSelector("#guarantee-limit-" + dan)).getText().trim().split("\n")[1];
 	 }
