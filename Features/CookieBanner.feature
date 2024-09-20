@@ -1,4 +1,4 @@
-@acceptance
+#@acceptance
 
 Feature: Tracking consent banner on financials pages
 

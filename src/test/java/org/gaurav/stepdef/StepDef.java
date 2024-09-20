@@ -64,11 +64,11 @@ public class StepDef extends BrowserDriver {
 
         List<Map<String, String>> dataMap = data.asMaps();
 
-        dataMap.stream().map(account ->
+        dataMap.forEach(account ->
 
                 {
 
-                    List expectedList = Arrays.asList(account.get("Account Limit"),
+                    List<String> expectedList = Arrays.asList(account.get("Account Limit"),
                             account.get("Schemes text"),
                             account.get("Guarantee Limit"),
                             account.get("Guarantee Remaining")
@@ -85,17 +85,16 @@ public class StepDef extends BrowserDriver {
 
 
 
-                    List actualList = Arrays.asList(CustomsFinancialsHomePage.accountLimit(accountNumber),
+                    List<String> actualList = Arrays.asList(CustomsFinancialsHomePage.accountLimit(accountNumber),
                             CustomsFinancialsHomePage.DutyDefermentAccountList(accountNumber),
                             CustomsFinancialsHomePage.guaranteeLimit(accountNumber),
                             CustomsFinancialsHomePage.guaranteeLimitRemaining(accountNumber)
                     );
 
-                    Assert.assertEquals(expectedList,actualList);
+                    Assert.assertEquals("Account Mismatch in account" + accountNumber,expectedList,actualList);
 
-                    return null;
                 }
-        ).collect(Collectors.toList());
+                );
     }
 
     @Then("I should see the following duty deferment balances warning text")
@@ -106,23 +105,19 @@ public class StepDef extends BrowserDriver {
 
     }
 
-
-    @Then("I should see my Cash account with status$")
-    public void accountWithStatus(DataTable dataTable) {
-        //System.out.println("Data Table  = "+dataTable.asList());
-        //List<List<String>> l1=dataTable.asLists();
-        //System.out.println("L1 = "+l1);
-        List<Map<String, String>> list = dataTable.asMaps();
-        System.out.println("List =" + list);
-        for (Map<String, String> m : list) {
-            String accountNo = m.get("can");
-            String status = m.get("Status");
-            String balance = m.get("Avilable Account Balance");
-
-            CustomsFinancialsHomePage.assertCashAccountDetails(accountNo, status, balance);
-        }
-
+    @Then("I should see the Payment details link for account (.*)$")
+    public void i_should_see_the_payment_details_link_for_account(String account) {
+      Boolean expected =CustomsFinancialsHomePage.paymentDetailsLinkPresence(account);
+      Assert.assertEquals(expected,true);
     }
+    @Then("the payment details link for account (.*) should point to direct debit details page$")
+    public void the_payment_details_link_for_account_should_point_to_direct_debit_details_page(String account) {
+     String link=CustomsFinancialsHomePage.getPaymentDetailsHref(account);
+     assertTrue(link.startsWith("http://localhost:9397/customs/duty-deferment"));
+     assertTrue(link.endsWith("/direct-debit"));
+    }
+
+
 
     @Then("I should see the following direct debit content")
     public void i_should_see_the_following_direct_debit_content(DataTable data) {
@@ -179,6 +174,17 @@ public class StepDef extends BrowserDriver {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.tagName(headingTag)));
         driver.findElement(By.tagName(headingTag)).getText().equalsIgnoreCase(subHeading);
+    }
+
+    @Then("I should see my cash account with status")
+    public void i_should_see_my_cash_account_with_status(DataTable dataTable) {
+        List expected=dataTable.asLists().stream().skip(1).collect(Collectors.toList());
+        System.out.println("Expected =>"+expected);
+        List actual=CustomsFinancialsHomePage.CashAccounts();
+        System.out.println("Actual =>"+actual);
+        Assert.assertEquals("Account mismatch",expected,actual);
+
+
     }
 
 

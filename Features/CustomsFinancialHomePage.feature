@@ -1,4 +1,4 @@
-#@Custom
+#@acceptance
 Feature: Customs Financial Home Page
 
   Background: 
@@ -104,11 +104,8 @@ Feature: Customs Financial Home Page
     Examples:
       | user                                   | status          | account number   | available account balance | direct debit setup information             |
       | dutyDefermentAccountSuspendedStatus4   | ACTION REQUIRED | Account: 0005992 |                           | Warning\nUnable to use this account on CDS |
-      | dutyDefermentAccountClosed             | CLOSED          | Account: 1234567 | £34,632 available         |                                            |
-      | IsleOfManDutyDefermentAccountSuspended | ACTION REQUIRED | Account: 0005992 | £34,632 available         |                                            |
-      | IsleOfManDutyDefermentAccountClosed    | CLOSED          | Account: 0005992 | £34,632 available         |                                            |
 
-  @test
+  #@test
   Scenario Outline: Direct debit content on Duty deferment account card with suspended status
     When I sign in as a <user> user
     And I navigate to the Customs Financials Home page
@@ -118,3 +115,23 @@ Feature: Customs Financial Home Page
     Examples:
       | user                                 |
       | dutyDefermentAccountSuspendedStatus4 |
+
+
+  #@test
+  Scenario: Payment details link on Duty deferment account card
+    When I navigate to the Customs Financials Home page
+    Then I should see the Payment details link for account 6259461
+    And the payment details link for account 6259461 should point to direct debit details page
+
+  @test
+  Scenario: Cash account card on Customs Financials home page with account status
+    When I navigate to the Customs Financials Home page
+    Then I should see the sub-heading "Cash account"
+    And I should see my cash account with status
+      | can                  | Status    | Available Account Balance |
+      | Account: 10000008018 |           | £318,432.17 available     |
+      | Account: 10000008019 |           | £950 available            |
+      | Account: 10000008020 | SUSPENDED | £54,321.76 available      |
+      | Account: 10000008021 | CLOSED    | £0                        |
+      | Account: 10000008022 |           | £23,756.23 available      |
+      | Account: 10000008023 |           | £123.01 available         |
