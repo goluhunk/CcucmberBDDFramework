@@ -5,6 +5,8 @@ package org.gaurav.pages;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,11 +42,20 @@ public class CustomsFinancialsHomePage extends BasePage {
 	 }
 
 	public static String setUpDirectDebitLink(){
-		String ls = null;
 		for(WebElement e:DutyDeferment()){
-			ls =e.findElement(By.tagName("a")).getAttribute("href");
+		return e.findElement(By.tagName("a")).getAttribute("href");
 		}
-		return ls;
+		return null;
+	}
+
+	public static String getPaymentDetailsHref(String account){
+
+		for(WebElement e:DutyDeferment()){
+			if(e.getText().contains(account))
+			 return e.findElement(By.cssSelector("#payment-details-"+account)).getAttribute("href").trim();
+			break;
+		}
+		return null;
 	}
 
 
@@ -62,16 +73,20 @@ public class CustomsFinancialsHomePage extends BasePage {
 				.stream().collect(Collectors.toList());
 	}
 
+
+
+
+
 	public static String DutyDefermentAccountList(String account){
-		String text = null;
+		//String text = null;
 		for(WebElement el:DutyDeferment()) {
 			if(el.getText().contains(account)){
-				text=el.findElements(By.cssSelector(".govuk-hint")).isEmpty() ? null :
+				return el.findElements(By.cssSelector(".govuk-hint")).isEmpty() ? null :
 						el.findElement(By.cssSelector(".govuk-hint")).getText();
 		}
 
 		}
-		return text;
+		return null;
 	}
 
 	public static List<List<String>> DutyDefermentAccountCard(){
@@ -80,23 +95,31 @@ public class CustomsFinancialsHomePage extends BasePage {
 
 	}
 
-	public static void assertCashAccountDetails(String accountNo, String status, String balance) {
+	public static boolean paymentDetailsLinkPresence(String account){
+		boolean b=false;
+     for(WebElement e:DutyDeferment()){
+		 if(e.getText().contains(account)){
+			b= e.findElement(By.cssSelector("#payment-details-"+account)).isDisplayed();
+			 break;
+		 }
+	 }
+		return b;
+	}
 
-		Assert.assertEquals(getElementByText(accountNo).getText().contains(accountNo), true);
-		 if(status==null) {
-			 Assert.assertEquals(null, status);
-		 }
-		 else {
-		switch(status) {
-		case "SUSPENDED":Assert.assertEquals("SUSPENDED", status);
-		break;
-		case "CLOSED":Assert.assertEquals("CLOSED", status);
-		break;
-		default :Assert.assertEquals(getElementByText(status).getText(), status);
-		}
-		 }
-		
-		String thisbalance=balance.replaceAll("\\s.*", "");
-		Assert.assertEquals(getElementByText(thisbalance).getText(),thisbalance);
+	public static List<String> CashAccounts()
+	{
+		List<WebElement> cashAccount=driver.findElement(By.cssSelector("#cash-accounts"))
+				.findElements(By.cssSelector(".cash-account"));
+
+		List accountList=cashAccount.stream().map(el->
+				Arrays.asList(el.findElement(By.tagName("h3")).getText().split("\n")[0],
+						el.findElements(By.cssSelector(".cash-account-status")).isEmpty() ? null
+								:el.findElement(By.cssSelector(".cash-account-status")).getText().trim(),
+						el.findElement(By.tagName("p")).getText().trim())
+				).collect(Collectors.toList());
+
+
+
+		return accountList;
 	}
 }
