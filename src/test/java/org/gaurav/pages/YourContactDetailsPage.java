@@ -1,6 +1,8 @@
 package org.gaurav.pages;
 
+import org.gaurav.utils.Configuration;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import java.util.HashMap;
 import java.util.List;
@@ -8,9 +10,13 @@ import java.util.Map;
 
 public class YourContactDetailsPage extends BasePage{
 
-    String url=envBaseUrl+"/customs/payment-records/your-contact-details";
+    String url= Configuration.baseURL +"/customs/payment-records/your-contact-details";
 
-    public static void clickOnContactDetailsLink(String accountNo){
+    public YourContactDetailsPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public  void clickOnContactDetailsLink(String accountNo){
         List<WebElement> accounts=driver.findElements(By.cssSelector(".govuk-summary-list"));
 
         for(WebElement account:accounts){
@@ -23,7 +29,7 @@ public class YourContactDetailsPage extends BasePage{
 
     }
 
-    public static Map<String,String> verifyContactDetailsContent(){
+    public  Map<String,String> verifyContactDetailsContent(){
     List<WebElement> details=driver.findElements(By.cssSelector(".govuk-summary-list__row"));
     Map<String ,String> map=new HashMap<String,String>();
     for(WebElement detail:details){

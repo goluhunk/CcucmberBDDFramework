@@ -6,24 +6,40 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.cucumber.java.*;
 import org.apache.commons.io.FileUtils;
 import org.gaurav.utils.BrowserDriver;
 import org.gaurav.utils.Configuration;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
-import io.cucumber.java.After;
-import io.cucumber.java.AfterAll;
-import io.cucumber.java.BeforeAll;
-import io.cucumber.java.Scenario;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.devtools.v85.browser.Browser;
 
 
 public class Hooks extends BrowserDriver {
 
-	@BeforeAll()
-	public static void setup() {
-		Configuration.settings(System.getProperty("environment"));
-		BrowserDriver.getDriver(System.getProperty("browser"));
+
+	public BrowserDriver browserDriver;
+	public Hooks(BrowserDriver browserdriver) {
+		this.browserDriver=browserdriver;
+		System.out.println("Hooks initialized with BrowserDriver: " + browserdriver);
+
+	}
+
+	Configuration con;
+
+	@Before()
+	public void setUp() {
+		String environment=System.getProperty("environment","local");
+		String browser=System.getProperty("browser", "chrome");
+		browserDriver.setDriver(browser);
+		driver =browserDriver.getDriver();
+		driver.manage().window().maximize();
+		con =new Configuration();
+		con.setting(environment);
+
+
 	}
 
 	@After()
@@ -41,8 +57,8 @@ public class Hooks extends BrowserDriver {
 			}
 		}
 	}
-	@AfterAll
-	public static void tearDown() {
+	@After
+	public void tearDown() {
 		driver.quit();
 	}
 

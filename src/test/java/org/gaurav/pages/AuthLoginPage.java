@@ -1,6 +1,5 @@
 package org.gaurav.pages;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.gaurav.utils.Configuration;
@@ -13,11 +12,10 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AuthLoginPage extends BasePage {
 
-    String url = Configuration.getAuthLoginStub() + "/gg-sign-in";
+private String url;
 
     public AuthLoginPage(WebDriver driver) {
-
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     @FindBy(xpath = "//input[@id='redirectionUrl']")
@@ -26,10 +24,13 @@ public class AuthLoginPage extends BasePage {
     @FindBy(xpath = "//table[@class='govuk-table']/tbody/tr[2]/td/div/input")
     List<WebElement> enrollmentsKeys;
 
-    public void login(String user) throws InterruptedException {
+
+
+    public void doLogin(String user) throws InterruptedException {
+        url=Configuration.authLoginStub + "/gg-sign-in";
         goToPage(url);
         redirectURL.sendKeys(redirectURL()+"/customs/payment-records");
-          try {
+        try {
             enrollmentsKeys.get(0).sendKeys(ReadJSONData.readData(user,"enrollmentKey"));
             enrollmentsKeys.get(1).sendKeys(ReadJSONData.readData(user,"enrollmentValue"));
             enrollmentsKeys.get(2).sendKeys(ReadJSONData.readData(user,"EORINumber"));
@@ -38,6 +39,5 @@ public class AuthLoginPage extends BasePage {
         }
         enrollmentsKeys.get(2).sendKeys(Keys.ENTER);
     }
-
 
 }

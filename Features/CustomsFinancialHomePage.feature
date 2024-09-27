@@ -92,7 +92,7 @@ Feature: Customs Financial Home Page
     Then I should see the following duty deferment balances warning text
       | Balances include import declarations made using Customs Handling of Import and Export Freight (CHIEF) and the Customs Declarations Service (CDS). |
 
-  #@test
+  @test
   Scenario Outline: Duty Deferment card for regular and Isle of Man users on Customs Financials home page with account status
     When I sign in as a <user> user
     And I navigate to the Customs Financials Home page
@@ -123,7 +123,7 @@ Feature: Customs Financial Home Page
     Then I should see the Payment details link for account 6259461
     And the payment details link for account 6259461 should point to direct debit details page
 
-  @test
+  #@test
   Scenario: Cash account card on Customs Financials home page with account status
     When I navigate to the Customs Financials Home page
     Then I should see the sub-heading "Cash account"
@@ -135,3 +135,11 @@ Feature: Customs Financial Home Page
       | Account: 10000008021 | CLOSED    | £0                        |
       | Account: 10000008022 |           | £23,756.23 available      |
       | Account: 10000008023 |           | £123.01 available         |
+
+
+  #@test
+  Scenario: View Deskpro link on homepage
+    When I navigate to the Customs Financials Home page
+    Then I should see a link to "Is this page not working properly? (opens in new tab)"
+    And the Is this page not working properly? page url is correct
+
