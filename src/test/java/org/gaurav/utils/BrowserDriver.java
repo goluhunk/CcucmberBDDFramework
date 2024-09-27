@@ -1,5 +1,7 @@
 package org.gaurav.utils;
 
+import org.gaurav.stepdef.Hooks;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -8,23 +10,28 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class BrowserDriver {
+public class BrowserDriver{
 
-	protected static  WebDriver driver;
+	public  WebDriver driver;
 
-	public static WebDriver getDriver( String rdriver) {
+	public WebDriver getDriver() {
+		return driver;
+	}
 
-		switch(rdriver) {
-		case "chrome":{
-			driver= new ChromeDriver();
-			driver.manage().window().maximize();
-			break;
-		}
-		case "firefox":{
-			driver= new FirefoxDriver();
-			driver.manage().window().maximize();
-			break;
-		}
+
+
+
+	public void setDriver(String browser) {
+		switch(browser) {
+			case "chrome":{
+				driver=	new ChromeDriver();
+				break;
+			}
+			case "firefox":{
+				driver=new FirefoxDriver();
+
+				break;
+			}
 			case "remote-chrome":{
 				ChromeOptions options = new ChromeOptions();
 				driver=new RemoteWebDriver(options);
@@ -36,16 +43,16 @@ public class BrowserDriver {
 				driver=new RemoteWebDriver(options);
 				break;
 			}
-		case "edge":{
-			driver= new EdgeDriver();
-			driver.manage().window().maximize();
-			break;
+			case "edge":{
+				driver=new EdgeDriver();
+				break;
+			}
+			default: {
+				System.out.println("Driver not found");
+			}
 		}
-		default: {
-			System.out.println("Driver not found");
-		}
-		}
-		return driver;
 
 	}
+
+
 }

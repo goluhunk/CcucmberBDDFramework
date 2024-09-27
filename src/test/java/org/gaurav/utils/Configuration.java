@@ -2,59 +2,54 @@ package org.gaurav.utils;
 
 public class Configuration {
 
-    static String baseURL;
-    static String authLoginStub;
-    static String signInPage;
+     public static String baseURL;
+     public static String authLoginStub;
 
-    public static String getBaseURL() {
-        return baseURL;
-    }
 
-    public static String getAuthLoginStub() {
-        return authLoginStub;
-    }
 
-    public static String getSignInPage() {
-        return signInPage;
-    }
-
-    public  static void setBaseURL(String URL) {
-        baseURL = URL;
-    }
-
-    public static  void setAuthLoginStub(String LoginStub) {
-        authLoginStub =  LoginStub;
-    }
-
-    public static void setSignInPage(String Page) {
-        signInPage = Page;
+    public  void setBaseURL(String baseURL) {
+        Configuration.baseURL = baseURL;
     }
 
 
-    public static void settings( String environment){
+
+    public  void setAuthLoginStub(String authLoginStub) {
+        Configuration.authLoginStub = authLoginStub;
+    }
+
+
+    public  void setSignInPage(String signInPage) {
+        Configuration.signInPage = signInPage;
+    }
+
+    public static String signInPage;
+
+
+    public void  setting( String environment){
         switch(environment){
             case "local": {
-                Configuration.setBaseURL("http://localhost");
-                Configuration.setAuthLoginStub("http://localhost:9949/auth-login-stub");
-                Configuration.setSignInPage("http://localhost:9025/gg/sign-in");
+
+                this.setBaseURL("http://localhost");
+                this.setAuthLoginStub("http://localhost:9949/auth-login-stub");
+                this.setSignInPage("http://localhost:9025/gg/sign-in");
                 break;
             }
             case "dev": {
-                Configuration.setBaseURL("https://www.development.tax.service.gov.uk");
-                Configuration.setAuthLoginStub("https://www.development.tax.service.gov.uk/auth-login-stub");
-                Configuration.setSignInPage("https://www.development.tax.service.gov.uk/gg/sign-in");
+                this.setBaseURL("https://www.development.tax.service.gov.uk");
+                this.setAuthLoginStub("https://www.development.tax.service.gov.uk/auth-login-stub");
+                this.setSignInPage("https://www.development.tax.service.gov.uk/gg/sign-in");
                 break;
             }
             case "staging": {
-                Configuration.setBaseURL("https://www.staging.tax.service.gov.uk");
-                Configuration.setAuthLoginStub("https://www.staging.tax.service.gov.uk/auth-login-stub");
-                Configuration.setSignInPage("https://www.staging.tax.service.gov.uk/gg/sign-in");
+                this.setBaseURL("https://www.staging.tax.service.gov.uk");
+                this.setAuthLoginStub("https://www.staging.tax.service.gov.uk/auth-login-stub");
+                this.setSignInPage("https://www.staging.tax.service.gov.uk/gg/sign-in");
                 break;
             }
             case "qa": {
-                Configuration.setBaseURL("https://www.qa.tax.service.gov.uk");
-                Configuration.setAuthLoginStub("https://www.qa.tax.service.gov.uk/auth-login-stub");
-                Configuration.setSignInPage("https://www.qa.tax.service.gov.uk/gg/sign-in");
+                this.setBaseURL("https://www.qa.tax.service.gov.uk");
+                this.setAuthLoginStub("https://www.qa.tax.service.gov.uk/auth-login-stub");
+                this.setSignInPage("https://www.qa.tax.service.gov.uk/gg/sign-in");
                 break;
             }
 
@@ -62,6 +57,7 @@ public class Configuration {
 
             }
         }
+
     }
 
 }

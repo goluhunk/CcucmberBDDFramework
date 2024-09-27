@@ -1,0 +1,28 @@
+//This is the main block that defines the entire Jenkins pipeline.
+//It contains all the stages, agents, and steps that will be executed.
+pipeline {
+//The agent block defines where and how the pipeline will run.
+//In this case, the pipeline is configured to run inside a Docker container.
+    agent {
+        docker {
+                image 'python:3.8-alpine'
+                args '-v/var/jenkins_home:/home/jenkins'
+        }
+
+    }
+    //The stages block defines the different phases (or stages) of the pipeline. In this pipeline,
+     //there are two stages: Build and Run.
+    stages {
+        stage('Build') {
+            steps {
+                sh 'python --version'
+            }
+        }
+        stage('Run') {
+            steps {
+                sh 'echo"Running inside docker container!"'
+            }
+        }
+    }
+
+}

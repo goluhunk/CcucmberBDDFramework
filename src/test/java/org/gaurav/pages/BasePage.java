@@ -2,54 +2,62 @@ package org.gaurav.pages;
 
 import java.util.List;
 
-import org.gaurav.utils.BrowserDriver;
 import org.gaurav.utils.Configuration;
+
 import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 
 
-public class BasePage extends BrowserDriver {
+public class BasePage  {
 
-	static String envBaseUrl = Configuration.getBaseURL();
-	static int port = 9876;
-	//static String redirect="/customs/payment-records";
-
-	public static  String redirectURL(){
-		if(Configuration.getBaseURL().startsWith("http://local"))
-			return (envBaseUrl+":"+port);
-		else
-			return envBaseUrl;
+	WebDriver driver;
+	String url;
+	int port = 9876;
+	public BasePage(WebDriver driver){
+		this.driver=driver;
+		PageFactory.initElements(driver,this);
 	}
 
 
-	public static void goToPage(String url) {
+	public  String redirectURL(){
+		if(Configuration.baseURL.startsWith("http://local"))
+			return (Configuration.baseURL+":"+port);
+		else
+			return Configuration.baseURL;
+	}
 
+
+
+
+	public void goToPage(String url) throws InterruptedException {
 		driver.get(url);
 	}
 
-	public static WebElement linkText(String link) {
-
+	public  WebElement linkText(String link) {
 		return driver.findElement(By.linkText(link));
 	}
 
-	public static WebElement getElementByText(String text) {
+	public  WebElement getElementByText(String text) {
 		if(text!=null) {
 		return driver.findElement(By.xpath("//*[contains(text(),'"+text+"')]"));
 		}
 		else return null;
 	}
 	
-	public static List<WebElement> getElementsByID(String id){
+	public  List<WebElement> getElementsByID(String id){
 		return driver.findElements(By.xpath("//*[contains(@id,'"+id+"')]"));
 		
 	}
 
-	public static WebElement backLink() {
+	public  WebElement backLink() {
 
 		return driver.findElement(By.cssSelector(".govuk-back-link"));
 	}
 
-	public static WebElement changeLink(String link) {
+	public  WebElement changeLink(String link) {
 
 		WebElement el=null;
 		List<WebElement> list = driver.findElements(By.cssSelector(".govuk-summary-list__row"));
@@ -63,10 +71,10 @@ public class BasePage extends BrowserDriver {
 		return el;
 	}
 
-	public static String warningText(){
+	public  String warningText(){
 
 		return driver.findElement(By.cssSelector("#duty-deferment-balances-warning")).getText().trim();
 
 	}
-	
+
 }

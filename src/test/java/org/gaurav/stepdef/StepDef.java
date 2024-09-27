@@ -4,25 +4,40 @@ import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.gaurav.pages.*;
-import org.gaurav.utils.BrowserDriver;
 import static org.junit.Assert.assertTrue;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
+import org.gaurav.utils.BrowserDriver;
 import org.gaurav.utils.DataTableConverters;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class StepDef extends BrowserDriver {
+public class StepDef {
 
+    WebDriver driver;
     AuthLoginPage alp;
+    CustomsFinancialsHomePage cfh;
+    EditContactDetailsPage ecd;
+    YourContactDetailsPage ycd;
+    public StepDef(BrowserDriver browserdriver){
+        this.driver=browserdriver.getDriver();
+        System.out.println("StepDef initialized with BrowserDriver: " + browserdriver);
+        alp = new AuthLoginPage(driver);
+        cfh=new CustomsFinancialsHomePage(driver);
+        ecd=new EditContactDetailsPage(driver);
+        ycd=new YourContactDetailsPage(driver);
 
-
+    }
     @Given("I (am |)sign(ed|) in as a (.*) user$")
     public void signIn(String am,String ed,String userType) throws InterruptedException {
-        alp = new AuthLoginPage(driver);
-        alp.login(userType);
+        if (driver== null) {
+            throw new IllegalStateException("WebDriver is not initialized. Ensure the driver is set up in Hooks.");
+        }
+
+        alp.doLogin(userType);
     }
 
     @Given("I am not signed in$")
@@ -39,10 +54,11 @@ public class StepDef extends BrowserDriver {
     }
 
     @When("I navigate to the (.*) page$")
-    public void navigateToPage(String page) {
+    public void navigateToPage(String page) throws InterruptedException {
         switch (page) {
             case "Customs Financials Home": {
-                CustomsFinancialsHomePage.loadPage();
+                   cfh.loadPage();
+
                 break;
             }
             default: {
@@ -54,7 +70,7 @@ public class StepDef extends BrowserDriver {
     @Then("I should see my duty deferment accounts$")
     public void dutyDefermentAccount(DataTable data) {
        List<List<String>> expected=data.asLists().stream().skip(1).collect(Collectors.toList());
-       List<List<String>> actual=  CustomsFinancialsHomePage.DutyDefermentAccountCard();
+       List<List<String>> actual=  cfh.DutyDefermentAccountCard();
        Assert.assertEquals(actual,expected);
     }
 
@@ -85,10 +101,10 @@ public class StepDef extends BrowserDriver {
 
 
 
-                    List<String> actualList = Arrays.asList(CustomsFinancialsHomePage.accountLimit(accountNumber),
-                            CustomsFinancialsHomePage.DutyDefermentAccountList(accountNumber),
-                            CustomsFinancialsHomePage.guaranteeLimit(accountNumber),
-                            CustomsFinancialsHomePage.guaranteeLimitRemaining(accountNumber)
+                    List<String> actualList = Arrays.asList(cfh.accountLimit(accountNumber),
+                            cfh.DutyDefermentAccountList(accountNumber),
+                            cfh.guaranteeLimit(accountNumber),
+                            cfh.guaranteeLimitRemaining(accountNumber)
                     );
 
                     Assert.assertEquals("Account Mismatch in account" + accountNumber,expectedList,actualList);
@@ -100,19 +116,19 @@ public class StepDef extends BrowserDriver {
     @Then("I should see the following duty deferment balances warning text")
     public void i_should_see_the_following_duty_deferment_balances_warning_text(DataTable data) {
         List expected= DataTableConverters.asListOfStrings(data);
-        List actual=Arrays.asList(CustomsFinancialsHomePage.warningText());
+        List actual=Arrays.asList(cfh.warningText());
         Assert.assertEquals(expected,actual);
 
     }
 
     @Then("I should see the Payment details link for account (.*)$")
     public void i_should_see_the_payment_details_link_for_account(String account) {
-      Boolean expected =CustomsFinancialsHomePage.paymentDetailsLinkPresence(account);
+      Boolean expected =cfh.paymentDetailsLinkPresence(account);
       Assert.assertEquals(expected,true);
     }
     @Then("the payment details link for account (.*) should point to direct debit details page$")
     public void the_payment_details_link_for_account_should_point_to_direct_debit_details_page(String account) {
-     String link=CustomsFinancialsHomePage.getPaymentDetailsHref(account);
+     String link=cfh.getPaymentDetailsHref(account);
      assertTrue(link.startsWith("http://localhost:9397/customs/duty-deferment"));
      assertTrue(link.endsWith("/direct-debit"));
     }
@@ -122,14 +138,14 @@ public class StepDef extends BrowserDriver {
     @Then("I should see the following direct debit content")
     public void i_should_see_the_following_direct_debit_content(DataTable data) {
         List expected=DataTableConverters.asListOfStrings(data);
-        List actual =CustomsFinancialsHomePage.directDebitContent();
+        List actual =cfh.directDebitContent();
         Assert.assertEquals(expected,actual);
 
 
     }
     @Then("I should see the set up a new Direct Debit link")
     public void i_should_see_the_set_up_a_new_direct_debit_link() {
-        String actual=CustomsFinancialsHomePage.setUpDirectDebitLink();
+        String actual=cfh.setUpDirectDebitLink();
 
         assertTrue(actual.startsWith("http://localhost:9397/customs/duty-deferment/"));
        assertTrue(actual.endsWith("/direct-debit"));
@@ -138,7 +154,7 @@ public class StepDef extends BrowserDriver {
 
     @When("I click on \'([^\"]*)\'$")
     public void i_click_on(String link) {
-        CustomsFinancialsHomePage.linkText(link).click();
+        cfh.linkText(link).click();
     }
 
     @Then("^I click on the View link for dan account \"([^\"]*)\"$")
@@ -180,7 +196,7 @@ public class StepDef extends BrowserDriver {
     public void i_should_see_my_cash_account_with_status(DataTable dataTable) {
         List expected=dataTable.asLists().stream().skip(1).collect(Collectors.toList());
         System.out.println("Expected =>"+expected);
-        List actual=CustomsFinancialsHomePage.CashAccounts();
+        List actual=cfh.CashAccounts();
         System.out.println("Actual =>"+actual);
         Assert.assertEquals("Account mismatch",expected,actual);
 
@@ -190,7 +206,7 @@ public class StepDef extends BrowserDriver {
 
     @When("I click on Account details link for \"([^\"]*)\"$")
     public void i_click_on_account_details_link_for(String string) {
-        YourContactDetailsPage.clickOnContactDetailsLink((string));
+        ycd.clickOnContactDetailsLink((string));
     }
 
     @Then("I should see the following contact details")
@@ -202,24 +218,21 @@ public class StepDef extends BrowserDriver {
                 finalMap.put(key,map.get(key));
             }
         }
-       // System.out.println(finalMap);
-      // System.out.println(YourContactDetailsPage.verifyContactDetailsContent());
-  Assert.assertEquals(finalMap,YourContactDetailsPage.verifyContactDetailsContent());
-       // System.out.println(list.equals(YourContactDetailsPage.verifyContactDetailsContent()));
+      Assert.assertEquals(finalMap,ycd.verifyContactDetailsContent());
     }
 
     @Then("I should see the back link to previous page")
     public void i_should_see_the_back_link_to_previous_page() {
-        BasePage.backLink().getText().equals("back");
+        cfh.backLink().getText().equals("back");
     }
     @When("I click on back link to previous page")
     public void i_click_on_back_link_to_previous_page() {
-        BasePage.backLink().click();
+        cfh.backLink().click();
     }
 
     @When("I click on change link for (.*)$")
     public void i_click_on_change_link_for_name(String field) {
-        BasePage.changeLink(field).click();
+        cfh.changeLink(field).click();
     }
     @Then("I should see the following details populated in the form")
     public void i_should_see_the_following_details_populated_in_the_form(DataTable dataTable) {
@@ -230,7 +243,7 @@ public class StepDef extends BrowserDriver {
                 finalMap.put(key,map.get(key));
             }
         }
-        Assert.assertEquals(finalMap,EditContactDetailsPage.getPrepopulatedFormDetails());
+        Assert.assertEquals(finalMap,ecd.getPrepopulatedFormDetails());
     }
 
     @When("I enter the following details")
@@ -246,12 +259,17 @@ public class StepDef extends BrowserDriver {
     public void i_should_see_the_following_confirmation_text(io.cucumber.datatable.DataTable dataTable) {
         throw new io.cucumber.java.PendingException();
     }
+
     @Then("I should see a link to {string}")
-    public void i_should_see_a_link_to(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void i_should_see_a_link_to(String link) {
+        cfh.presenceLink(link);
     }
 
+
+    @Then("the Is this page not working properly? page url is correct")
+    public void the_is_this_page_not_working_properly_page_url_is_correct() {
+
+    }
 
 
 }
