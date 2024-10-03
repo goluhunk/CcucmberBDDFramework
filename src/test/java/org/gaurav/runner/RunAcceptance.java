@@ -11,7 +11,7 @@ import io.cucumber.junit.CucumberOptions;
 		glue="org.gaurav.stepdef",
 		dryRun=false,
 		monochrome=false,
-		plugin= {"pretty","json:target/cucumber-reports/Cucumber.json","html:Test-Reports/cucumber.html"
+		plugin= {"pretty","json:target/cucumber-reports/cucumber.json","html:target/cucumber-reports/cucumber.html"
 				,"rerun:target/failed.txt"}
 		,tags="@test"
 		)
